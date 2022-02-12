@@ -13,8 +13,6 @@ class Options
 		{
 			if (getData(option[0]) == null)
 				saveData(option[0], option[1]);
-
-			// trace(getData(option[0])); // k good this shit actually works
 		}
 	}
 
@@ -27,6 +25,12 @@ class Options
 	public static function getData(save:String):Dynamic
 	{
 		return Reflect.getProperty(FlxG.save.data, save);
+	}
+
+	public static function resetData()
+	{
+		FlxG.save.erase();
+		init();
 	}
 
 	// variables
@@ -42,9 +46,17 @@ class Options
 				["A", "S", "D", "F", "SPACE", "H", "J", "K", "L"]
 			]
 		],
+		[
+			"uibinds",
+			[
+				["BACKSPACE", "ENTER", "LEFT", "DOWN", "UP", "RIGHT"],
+				["ESCAPE", "SPACE", "A", "S", "W", "D"]
+			]
+		],
 		["downscroll", true],
 		["show-backgrounds", true],
 		["middlescroll", true],
 		["antialiasing", true],
+		["fps-cap", 120],
 	]; // we're doing it in an array bc fuck you
 }

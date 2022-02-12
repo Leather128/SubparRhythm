@@ -2,7 +2,7 @@ package states;
 
 import flixel.FlxState;
 
-class PlayState extends FlxState
+class PlayState extends BasicState
 {
 	override public function create()
 	{

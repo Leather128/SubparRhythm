@@ -30,6 +30,19 @@
 	<set name="BUILD_DIR" value="export" />
 	<source path="source" />
 	<assets path="assets" />
+	<assets path="assets/images" />
+
+	<assets path="assets/songs" exclude="*.ogg" if="web"/>
+	<assets path="assets/songs" exclude="*.mp3" unless="web"/>
+
+	<assets path="assets/music" exclude="*.ogg" if="web"/>
+	<assets path="assets/music" exclude="*.mp3" unless="web"/>
+
+	<assets path="assets/sounds" exclude="*.ogg" if="web"/>
+	<assets path="assets/sounds" exclude="*.mp3" unless="web"/>
+
+	<assets path="assets/data" />
+	<assets path="assets/fonts" />
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
@@ -76,4 +89,8 @@
 	<!-- _________________________________ Custom _______________________________ -->
 
 	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->
+	<icon path="art/icon/icon16.png" size='16'/>
+	<icon path="art/icon/icon32.png" size='32'/>
+	<icon path="art/icon/icon64.png" size='64'/>
+	<icon path="art/icon/iconOG.png" />
 </project>
