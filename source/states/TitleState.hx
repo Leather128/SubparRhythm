@@ -43,7 +43,8 @@ class TitleState extends BasicState
 		Options.init();
 		optionsInitialized = true;
 
-		// curText = FlxG.random.getObject(getIntroText());
+		curText = FlxG.random.getObject(getIntroText());
+		trace(curText);
 
 		if (Options.getData('volume') != null)
 			FlxG.sound.volume = Options.getData('volume');
