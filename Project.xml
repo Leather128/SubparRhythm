@@ -17,7 +17,7 @@
 	<window width="1280" height="720" fps="60" background="#000000" hardware="true" vsync="false" />
 
 	<!--HTML5-specific-->
-	<window if="html5" resizable="false" />
+	<window if="html5" resizable="true" />
 
 	<!--Desktop-specific-->
 	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" />
@@ -25,15 +25,32 @@
 	<!--Mobile-specific-->
 	<window if="mobile" orientation="landscape" fullscreen="true" width="0" height="0" />
 
+	<!-- __________________________ Game Customization _________________________ -->
+
+	<define name="mods_allowed"/> <!-- Delete or comment this line if you don't want mods -->
+	<define name="lua_allowed"/> <!-- Delete or comment this line if you don't want lua -->
+	<define name="discord_rpc_allowed"/> <!-- Delete or comment this line if you don't want Discord RPC -->
+
 	<!-- _____________________________ Path Settings ____________________________ -->
 
 	<set name="BUILD_DIR" value="export" />
+
+	<define name="PRELOAD_ALL" unless="web" />
+	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL"/>
+	
+	<section if="PRELOAD_ALL">
+		<library name="songs" preload="true" />
+	</section>
+	
+	<section if="NO_PRELOAD_ALL">
+		<library name="songs" preload="false" />
+	</section>
+
 	<source path="source" />
 	<assets path="assets" />
-	<assets path="assets/images" />
 
-	<assets path="assets/songs" exclude="*.ogg" if="web"/>
-	<assets path="assets/songs" exclude="*.mp3" unless="web"/>
+	<assets path="assets/songs" library="songs" exclude="*.ogg" if="web"/>
+	<assets path="assets/songs" library="songs" exclude="*.mp3" unless="web"/>
 
 	<assets path="assets/music" exclude="*.ogg" if="web"/>
 	<assets path="assets/music" exclude="*.mp3" unless="web"/>
@@ -41,18 +58,15 @@
 	<assets path="assets/sounds" exclude="*.ogg" if="web"/>
 	<assets path="assets/sounds" exclude="*.mp3" unless="web"/>
 
-	<assets path="assets/data" />
-	<assets path="assets/fonts" />
+	<assets path="mods" if="mods_allowed"/>
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
 	<haxelib name="flixel" />
-
-	<!--In case you want to use the addons package-->
 	<haxelib name="flixel-addons" />
-
-	<!--In case you want to use the ui package-->
 	<haxelib name="flixel-ui" />
+	<haxelib name="linc_luajit" if="lua_allowed"/>
+	<haxelib name="discord_rpc" if="discord_rpc_allowed"/>
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
@@ -65,7 +79,7 @@
 	<!--Disable the native cursor API on Flash-->
 	<!--<haxedef name="FLX_NO_NATIVE_CURSOR" />-->
 
-	<!--Optimise inputs, be careful you will get null errors if you don't use conditionals in your game-->
+	<!--Optimise inputs. Be careful! You will get null errors if you don't use conditionals in your game-->
 	<haxedef name="FLX_NO_MOUSE" if="mobile" />
 	<haxedef name="FLX_NO_KEYBOARD" if="mobile" />
 	<haxedef name="FLX_NO_TOUCH" if="desktop" />

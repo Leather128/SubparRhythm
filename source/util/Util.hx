@@ -1,6 +1,7 @@
 package util;
 
 import flixel.graphics.frames.FlxAtlasFrames;
+import haxe.Json;
 import lime.utils.Assets;
 
 class Util
@@ -25,18 +26,24 @@ class Util
 			return 'assets/images/$path.png';
 	}
 
-	static public function getSparrow(pngName:String, ?xmlName:String, ?customPath:Bool = false)
+	static public function getSparrow(pngName:String, ?xmlName:Null<String>, ?customPath:Bool = false)
 	{
 		var png = pngName;
 		var xml = xmlName;
 
 		if (xmlName == null)
-			xml == png;
+			xml = png;
 
 		if (customPath)
-			png = 'assets/$pngName';
+		{
+			png = 'assets/$png';
+			xml = 'assets/$xml';
+		}
 		else
-			png = 'assets/images/$pngName';
+		{
+			png = 'assets/images/$png';
+			xml = 'assets/images/$xml';
+		}
 
 		if (Assets.exists(png + ".png") && Assets.exists(xml + ".xml"))
 		{
@@ -61,5 +68,13 @@ class Util
 			return Assets.getText("assets/" + filePath);
 
 		return "";
+	}
+
+	static public function getJson(filePath:String)
+	{
+		if (Assets.exists('assets/$filePath.json'))
+			return Json.parse(Assets.getText('assets/$filePath.json'));
+
+		return null; // return null if json can't be found
 	}
 }

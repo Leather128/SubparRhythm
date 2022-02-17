@@ -38,6 +38,9 @@ class Options
 		[
 			"keybinds",
 			[
+				["SPACE"],
+				["D", "K"],
+				["D", "SPACE", "K"],
 				["D", "F", "J", "K"],
 				["D", "F", "SPACE", "J", "K"],
 				["S", "D", "F", "J", "K", "L"],
@@ -57,6 +60,8 @@ class Options
 		["show-backgrounds", true],
 		["middlescroll", true],
 		["antialiasing", true],
+		["lane-offset", 400],
 		["fps-cap", 120],
+		["ui-skin", "default"], // using file names instead of json name because yea
 	]; // we're doing it in an array bc fuck you
 }

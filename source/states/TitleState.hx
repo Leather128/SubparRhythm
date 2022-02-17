@@ -9,6 +9,7 @@ import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
 import options.Controls;
 import options.Options;
 import util.Util;
@@ -34,7 +35,9 @@ class TitleState extends BasicState
 
 	static public var titleStarted:Bool = false;
 
-	var curText:Array<String>;
+	static public var transitionsAllowed:Bool = false;
+
+	var curText:Array<String> = ["among", "us"];
 
 	override public function create()
 	{
@@ -43,8 +46,8 @@ class TitleState extends BasicState
 		Options.init();
 		optionsInitialized = true;
 
+		trace(getIntroText());
 		curText = FlxG.random.getObject(getIntroText());
-		trace(curText);
 
 		if (Options.getData('volume') != null)
 			FlxG.sound.volume = Options.getData('volume');
@@ -56,7 +59,8 @@ class TitleState extends BasicState
 		funnyGrid.color = 0xFF323852;
 		add(funnyGrid);
 
-		// FlxG.sound.playMusic(Util.getSound("music/titleMusic", true));
+		if (titleStarted)
+			FlxG.sound.playMusic(Util.getSound("music/titleMusic", true));
 
 		box = new FlxSprite(-450).loadGraphic(Util.getImage('mainmenu/menuCover'));
 		box.setGraphicSize(Std.int(box.width * 0.75));
@@ -75,48 +79,88 @@ class TitleState extends BasicState
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
 
-		funnyGrid.alpha = 0;
-		box.alpha = 0;
-		logo.alpha = 0;
+		if (!titleStarted)
+		{
+			funnyGrid.alpha = 0;
+			box.alpha = 0;
+			logo.alpha = 0;
 
-		// splash screen shit
-		logoCircles = new FlxSprite().loadGraphic(Util.getImage('logoCircles'));
-		logoCircles.screenCenter();
-		logoCircles.setGraphicSize(Std.int(logoCircles.width * 0.3));
-		logoCircles.antialiasing = Options.getData('antialiasing');
-		logoCircles.alpha = 0;
-		add(logoCircles);
+			// splash screen shit
+			logoCircles = new FlxSprite().loadGraphic(Util.getImage('logoCircles'));
+			logoCircles.screenCenter();
+			logoCircles.setGraphicSize(Std.int(logoCircles.width * 0.3));
+			logoCircles.antialiasing = Options.getData('antialiasing');
+			logoCircles.alpha = 0;
+			add(logoCircles);
 
-		funnyText = new FlxText(0, 0, 0, "Thanks for playing!", 24);
-		funnyText.setFormat(Util.getFont('main'), 24, FlxColor.WHITE, CENTER);
-		funnyText.screenCenter();
-		funnyText.alpha = 0;
-		add(funnyText);
+			funnyText = new FlxText(0, 0, 0, "Thanks for playing!", 24);
+			funnyText.setFormat(Util.getFont('main'), 24, FlxColor.WHITE, CENTER);
+			funnyText.screenCenter();
+			funnyText.alpha = 0;
+			add(funnyText);
 
-		FlxTween.tween(logoCircles, {y: logoCircles.y - 35, alpha: 1}, 1, {
-			ease: FlxEase.cubeOut,
-			startDelay: 0.5
-		});
+			FlxTween.tween(logoCircles, {y: logoCircles.y - 35, alpha: 1}, 1, {
+				ease: FlxEase.cubeOut,
+				startDelay: 0.5
+			});
 
-		FlxTween.tween(funnyText, {y: funnyText.y + 35, alpha: 1}, 1, {
-			ease: FlxEase.cubeOut,
-			startDelay: 0.5,
-			onComplete: function(twn:FlxTween)
+			FlxTween.tween(funnyText, {y: funnyText.y + 35, alpha: 1}, 1, {
+				ease: FlxEase.cubeOut,
+				startDelay: 0.5,
+				onComplete: function(twn:FlxTween)
+				{
+					FlxTween.tween(funnyText, {alpha: 0}, 0.5, {
+						ease: FlxEase.cubeOut,
+						startDelay: 1,
+						onComplete: function(twn:FlxTween)
+						{
+							if (curText[1] == null)
+								curText[1] = "";
+
+							funnyText.text = curText[0] + "\n" + curText[1] + "\n";
+							funnyText.screenCenter(X);
+							FlxTween.tween(funnyText, {alpha: 1}, 0.5, {
+								ease: FlxEase.cubeOut
+							});
+						}
+					});
+				}
+			});
+
+			new FlxTimer().start(6, function(tmr:FlxTimer)
 			{
-				FlxTween.tween(funnyText, {alpha: 0}, 1, {
+				FlxTween.tween(logoCircles, {alpha: 0}, 0.5, {ease: FlxEase.cubeOut});
+				FlxTween.tween(funnyText, {alpha: 0}, 0.5, {
 					ease: FlxEase.cubeOut,
-					startDelay: 1,
 					onComplete: function(twn:FlxTween)
 					{
-						funnyText.text = curText[0] + "\n" + curText[1] + "\n";
-						funnyText.screenCenter(X);
-						FlxTween.tween(funnyText, {alpha: 1}, 1, {
-							ease: FlxEase.cubeOut
+						box.x = -999;
+						logo.x = -2600;
+
+						box.alpha = 0.6;
+						logo.alpha = 1;
+
+						if (!titleStarted)
+							FlxG.sound.playMusic(Util.getSound("music/titleMusic", true));
+
+						FlxTween.tween(funnyGrid, {alpha: 1}, 1, {ease: FlxEase.cubeOut});
+						FlxTween.tween(box, {x: -450}, 1, {ease: FlxEase.cubeOut});
+						FlxTween.tween(logo, {x: 50}, 1, {
+							ease: FlxEase.cubeOut,
+							onComplete: function(twn:FlxTween)
+							{
+								initTitle();
+							}
 						});
 					}
 				});
-			}
-		});
+			});
+		}
+		else
+		{
+			if (menuItems.members.length == 0)
+				initTitle();
+		}
 	}
 
 	override public function update(elapsed:Float)
@@ -134,11 +178,20 @@ class TitleState extends BasicState
 		// menu shit
 		if (titleStarted)
 		{
-			if (Controls.UI_UP_P)
+			if (Controls.UI_UP)
 				changeSelection(-1);
 
-			if (Controls.UI_DOWN_P)
+			if (Controls.UI_DOWN)
 				changeSelection(1);
+
+			if (Controls.ACCEPT)
+			{
+				switch (menuShit[curSelected])
+				{
+					case 'singleplayer':
+						transitionState(new PlayState());
+				}
+			}
 
 			for (i in 0...menuItems.members.length)
 			{
@@ -179,23 +232,33 @@ class TitleState extends BasicState
 			else
 				menuItems.members[i].alpha = 0.6;
 		}
+
+		FlxG.sound.play(Util.getSound('menus/scrollMenu'));
 	}
 
 	function initTitle()
+	{
+		if (!titleStarted)
+			FlxG.sound.playMusic(Util.getSound("music/titleMusic", true));
+
+		makeButtons();
+
+		changeSelection();
+
+		titleStarted = true;
+	}
+
+	function makeButtons()
 	{
 		for (i in 0...menuShit.length)
 		{
 			var fuck:Float = logo.y + 225;
 			var buttonTexture:String = menuShit[i];
 
-			var button:FlxSprite = new FlxSprite(-185, fuck + (100 * i)).loadGraphic(Util.getImage('mainmenu/buttons/$buttonTexture'));
+			var button:FlxSprite = new FlxSprite(-999 - (200 * i), fuck + (100 * i)).loadGraphic(Util.getImage('mainmenu/buttons/$buttonTexture'));
 			button.setGraphicSize(Std.int(button.width * 0.6));
 			button.updateHitbox();
 			menuItems.add(button);
 		}
-
-		changeSelection();
-
-		titleStarted = true;
 	}
 }

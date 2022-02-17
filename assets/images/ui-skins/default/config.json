@@ -1,0 +1,10 @@
+{
+    "animations": [
+        "static0",
+        "press",
+        "confirm"
+    ],
+    "name": "Arrows",
+    "size": 0.7,
+    "framerate": 24
+}
