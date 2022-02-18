@@ -77,4 +77,16 @@ class Util
 
 		return null; // return null if json can't be found
 	}
+
+	static public function boundTo(value:Float, min:Float, max:Float):Float
+	{
+		var newValue:Float = value;
+
+		if (newValue < min)
+			newValue = min;
+		else if (newValue > max)
+			newValue = max;
+
+		return newValue;
+	}
 }

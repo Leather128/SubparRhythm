@@ -14,7 +14,7 @@ class PlayState extends BasicState
 	var strumNotes:FlxTypedGroup<StrumNote>;
 
 	var keyCount:Int = 4;
-	var noteSpacing:Int = 100;
+	var laneOffset:Int = 100;
 
 	var strumArea:FlxSprite;
 
@@ -29,6 +29,8 @@ class PlayState extends BasicState
 	{
 		super.create();
 
+		laneOffset = Options.getData('lane-offset');
+
 		strumArea = new FlxSprite(0, 50);
 		strumArea.visible = false;
 
@@ -42,14 +44,13 @@ class PlayState extends BasicState
 
 		for (i in 0...keyCount)
 		{
-			var daStrum:StrumNote = new StrumNote(0, strumArea.y, i, Options.getData('ui-skin'));
+			var noteskin:String = Options.getNoteskins()[Options.getData('ui-skin')];
 
-			daStrum.scale.set(daStrum.json.size, daStrum.json.size);
-			daStrum.updateHitbox();
+			var daStrum:StrumNote = new StrumNote(0, strumArea.y, i, noteskin);
 
 			daStrum.screenCenter(X);
-			daStrum.x += (keyCount * ((noteSpacing / 2) * -1)) + (noteSpacing / 2);
-			daStrum.x += i * noteSpacing;
+			daStrum.x += (keyCount * ((laneOffset / 2) * -1)) + (laneOffset / 2);
+			daStrum.x += i * laneOffset;
 
 			strumNotes.add(daStrum);
 		}

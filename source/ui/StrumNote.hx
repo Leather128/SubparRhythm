@@ -2,39 +2,24 @@ package ui;
 
 import flixel.FlxSprite;
 import flixel.animation.FlxAnimation;
+import lime.utils.Assets;
 import options.Options;
 import util.Util;
 
 class StrumNote extends FlxSprite
 {
 	public var json:Dynamic;
+	public var noteskin:String = "default";
+	public var direction:Int = 0;
+
+	public var offsets = [0, 0];
 
 	override public function new(x:Float, y:Float, ?direction:Int = 0, ?noteskin:String = "default")
 	{
 		super(x, y);
 
-		frames = Util.getSparrow('ui-skins/$noteskin/notes');
-		json = Util.getJson('images/ui-skins/$noteskin/config');
-
-		animation.addByPrefix("static", json.animations[0], json.framerate, false);
-		animation.addByPrefix("press", json.animations[1], json.framerate, false);
-		animation.addByPrefix("confirm", json.animations[2], json.framerate, false);
-
-		playAnim("static");
-
-		switch (direction)
-		{
-			case 0:
-				angle = -90;
-			case 1:
-				angle = -180;
-			case 2:
-				angle = 0;
-			case 3:
-				angle = 90;
-		}
-
-		antialiasing = Options.getData('antialiasing');
+		this.direction = direction;
+		loadNoteSkin(noteskin, direction);
 	}
 
 	override public function update(elapsed:Float)
@@ -49,6 +34,46 @@ class StrumNote extends FlxSprite
 			animation.play(anim, force, reversed, frame);
 			centerOffsets();
 			centerOrigin();
+
+			offset.set(offset.x + offsets[0], offset.y + offsets[1]);
 		}
+	}
+
+	public function loadNoteSkin(?noteskin:String = "default", ?direction:Null<Int>)
+	{
+		// ADD MOD SUPPORT TO THIS CHECK
+		if (!Assets.exists('assets/images/ui-skins/$noteskin/config.json'))
+		{
+			Options.saveData('ui-skin', 0);
+			noteskin = Options.getNoteskins()[0];
+		}
+
+		this.noteskin = noteskin;
+
+		if (direction == null)
+			direction = this.direction;
+
+		frames = Util.getSparrow('ui-skins/$noteskin/notes');
+		json = Util.getJson('images/ui-skins/$noteskin/config');
+
+		if (json.offsets != null)
+			offsets = json.offsets;
+		else
+			offsets = [0, 0];
+
+		animation.addByPrefix("static", json.animations[direction][0], json.framerate, false);
+		animation.addByPrefix("press", json.animations[direction][1], json.framerate, false);
+		animation.addByPrefix("confirm", json.animations[direction][2], json.framerate, false);
+		animation.addByPrefix("note", json.animations[direction][3], json.framerate, false);
+
+		if (json.antialiasing == true)
+			antialiasing = Options.getData('antialiasing');
+		else
+			antialiasing = false;
+
+		scale.set(json.size, json.size);
+		updateHitbox();
+
+		playAnim("static");
 	}
 }

@@ -10,6 +10,7 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
+import lime.system.System;
 import options.Controls;
 import options.Options;
 import util.Util;
@@ -46,7 +47,6 @@ class TitleState extends BasicState
 		Options.init();
 		optionsInitialized = true;
 
-		trace(getIntroText());
 		curText = FlxG.random.getObject(getIntroText());
 
 		if (Options.getData('volume') != null)
@@ -59,7 +59,7 @@ class TitleState extends BasicState
 		funnyGrid.color = 0xFF323852;
 		add(funnyGrid);
 
-		if (titleStarted)
+		if (titleStarted && (FlxG.sound.music != null && !FlxG.sound.music.playing))
 			FlxG.sound.playMusic(Util.getSound("music/titleMusic", true));
 
 		box = new FlxSprite(-450).loadGraphic(Util.getImage('mainmenu/menuCover'));
@@ -140,7 +140,7 @@ class TitleState extends BasicState
 						box.alpha = 0.6;
 						logo.alpha = 1;
 
-						if (!titleStarted)
+						if (!titleStarted && FlxG.sound.music == null)
 							FlxG.sound.playMusic(Util.getSound("music/titleMusic", true));
 
 						FlxTween.tween(funnyGrid, {alpha: 1}, 1, {ease: FlxEase.cubeOut});
@@ -158,8 +158,25 @@ class TitleState extends BasicState
 		}
 		else
 		{
-			if (menuItems.members.length == 0)
-				initTitle();
+			box.x = -999;
+			logo.x = -2600;
+
+			funnyGrid.alpha = 0;
+			box.alpha = 0.6;
+			logo.alpha = 1;
+
+			if (!titleStarted && FlxG.sound.music == null)
+				FlxG.sound.playMusic(Util.getSound("music/titleMusic", true));
+
+			FlxTween.tween(funnyGrid, {alpha: 1}, 1, {ease: FlxEase.cubeOut});
+			FlxTween.tween(box, {x: -450}, 1, {ease: FlxEase.cubeOut});
+			FlxTween.tween(logo, {x: 50}, 1, {
+				ease: FlxEase.cubeOut,
+				onComplete: function(twn:FlxTween)
+				{
+					initTitle();
+				}
+			});
 		}
 	}
 
@@ -190,6 +207,10 @@ class TitleState extends BasicState
 				{
 					case 'singleplayer':
 						transitionState(new PlayState());
+					case 'options':
+						transitionState(new OptionSelectState());
+					case 'exit':
+						System.exit(0);
 				}
 			}
 
@@ -238,7 +259,7 @@ class TitleState extends BasicState
 
 	function initTitle()
 	{
-		if (!titleStarted)
+		if (!titleStarted && FlxG.sound.music == null)
 			FlxG.sound.playMusic(Util.getSound("music/titleMusic", true));
 
 		makeButtons();

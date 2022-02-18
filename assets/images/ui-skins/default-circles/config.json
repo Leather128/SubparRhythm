@@ -14,7 +14,7 @@
         ["up hold", "up hold end"],
         ["right hold", "right hold end"]
     ],
-    "name": "Arrows",
+    "name": "Circles",
     "size": 0.7,
     "framerate": 24,
     "noColoring": false,

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="uiSkinArrow.png">
+	<!-- Created with Adobe Animate version 21.0.6.41649 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="gfuck0000" x="750" y="2" width="69" height="113"/>
+	<SubTexture name="gfuck press0000" x="2" y="2" width="185" height="166"/>
+	<SubTexture name="gfuck press0001" x="189" y="2" width="185" height="166"/>
+	<SubTexture name="gfuck press0002" x="376" y="2" width="185" height="166"/>
+	<SubTexture name="gfuck press0003" x="376" y="2" width="185" height="166"/>
+	<SubTexture name="gfuck press0004" x="563" y="2" width="185" height="166"/>
+	<SubTexture name="gfuck press0005" x="563" y="2" width="185" height="166"/>
+</TextureAtlas>
