@@ -14,7 +14,7 @@ class StrumNote extends FlxSprite
 
 	public var offsets = [0, 0];
 
-	override public function new(x:Float, y:Float, ?direction:Int = 0, ?noteskin:String = "default")
+	override public function new(x:Float, y:Float, ?direction:Int = 0, ?noteskin:String = "default", ?keyCount:Int = 4)
 	{
 		super(x, y);
 

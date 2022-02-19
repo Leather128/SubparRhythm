@@ -44,6 +44,8 @@ class TitleState extends BasicState
 	{
 		super.create();
 
+		FlxG.fixedTimestep = false;
+
 		Options.init();
 		optionsInitialized = true;
 

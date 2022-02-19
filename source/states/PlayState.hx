@@ -5,29 +5,42 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.input.FlxInput.FlxInputState;
+import game.Note;
 import options.Controls;
 import options.Options;
 import ui.StrumNote;
 
 class PlayState extends BasicState
 {
+	static public var instance:PlayState;
+
+	public var speed:Int = 1;
+
 	var strumNotes:FlxTypedGroup<StrumNote>;
 
 	var keyCount:Int = 4;
 	var laneOffset:Int = 100;
 
 	var strumArea:FlxSprite;
+	var notes:FlxTypedGroup<Note>;
 
 	static public var strumY:Float = 0;
 
 	override public function new()
 	{
 		super();
+
+		instance = this;
 	}
 
 	override public function create()
 	{
 		super.create();
+
+		speed = Options.getData('scroll-speed');
+
+		if (FlxG.sound.music != null)
+			FlxG.sound.music.stop();
 
 		laneOffset = Options.getData('lane-offset');
 
@@ -36,6 +49,8 @@ class PlayState extends BasicState
 
 		if (Options.getData('downscroll'))
 			strumArea.y = FlxG.height - 150;
+
+		strumArea.y -= 20;
 
 		add(strumArea);
 
@@ -55,8 +70,7 @@ class PlayState extends BasicState
 			strumNotes.add(daStrum);
 		}
 
-		if (FlxG.sound.music != null)
-			FlxG.sound.music.stop();
+		generateNotes();
 	}
 
 	override public function update(elapsed:Float)
@@ -110,5 +124,10 @@ class PlayState extends BasicState
 				strumNotes.members[i].playAnim("static", true);
 			}
 		}
+	}
+
+	function generateNotes()
+	{
+		// do nothing because i'm lazy rn!!!
 	}
 }

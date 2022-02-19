@@ -59,6 +59,7 @@ class Options
 		["downscroll", true],
 		["show-backgrounds", true],
 		["antialiasing", true],
+		["scroll-speed", 2],
 		["lane-offset", 100],
 		["note-offset", 0],
 		["fps-cap", 120],
