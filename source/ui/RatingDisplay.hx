@@ -27,7 +27,7 @@ class RatingDisplay extends FlxSprite
 		alpha = 1;
 		FlxTween.cancelTweensOf(this);
 
-		FlxTween.tween(this, {alpha: 0}, 1, {
+		FlxTween.tween(this, {alpha: 0}, 0.6, {
 			ease: FlxEase.cubeInOut,
 			startDelay: 1
 		});

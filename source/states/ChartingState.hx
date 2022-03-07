@@ -74,7 +74,7 @@ class ChartingState extends BasicState
 		addSection();
 		updateGrid();
 
-		songInfoText = new FlxText(10, 10, 0, 24);
+		songInfoText = new FlxText(10, 10, 0, 18);
 		add(songInfoText);
 	}
 
@@ -148,6 +148,8 @@ class ChartingState extends BasicState
 				}
 			}
 		}
+
+		Conductor.songPosition = FlxG.sound.music.time;
 
 		songInfoText.text = ("Time: "
 			+ Std.string(FlxMath.roundDecimal(Conductor.songPosition / 1000, 2))

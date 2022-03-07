@@ -97,7 +97,7 @@ class Note extends FlxSprite
 		scale.set(json.size, json.size);
 		updateHitbox();
 
-		playAnim("static");
+		playAnim("note");
 	}
 
 	public function playAnim(anim:String, ?force:Bool = false)
