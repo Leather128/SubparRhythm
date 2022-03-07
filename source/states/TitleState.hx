@@ -62,7 +62,7 @@ class TitleState extends BasicState
 		add(funnyGrid);
 
 		if (titleStarted && (FlxG.sound.music != null && !FlxG.sound.music.playing))
-			FlxG.sound.playMusic(Util.getSound("music/titleMusic", true));
+			FlxG.sound.playMusic(Util.getSound("titleMusic", true));
 
 		box = new FlxSprite(-450).loadGraphic(Util.getImage('mainmenu/menuCover'));
 		box.setGraphicSize(Std.int(box.width * 0.75));
@@ -143,7 +143,7 @@ class TitleState extends BasicState
 						logo.alpha = 1;
 
 						if (!titleStarted && FlxG.sound.music == null)
-							FlxG.sound.playMusic(Util.getSound("music/titleMusic", true));
+							FlxG.sound.playMusic(Util.getSound("titleMusic", true));
 
 						FlxTween.tween(funnyGrid, {alpha: 1}, 1, {ease: FlxEase.cubeOut});
 						FlxTween.tween(box, {x: -450}, 1, {ease: FlxEase.cubeOut});
@@ -168,7 +168,7 @@ class TitleState extends BasicState
 			logo.alpha = 1;
 
 			if (!titleStarted && FlxG.sound.music == null)
-				FlxG.sound.playMusic(Util.getSound("music/titleMusic", true));
+				FlxG.sound.playMusic(Util.getSound("titleMusic", true));
 
 			FlxTween.tween(funnyGrid, {alpha: 1}, 1, {ease: FlxEase.cubeOut});
 			FlxTween.tween(box, {x: -450}, 1, {ease: FlxEase.cubeOut});
@@ -262,7 +262,7 @@ class TitleState extends BasicState
 	function initTitle()
 	{
 		if (!titleStarted && FlxG.sound.music == null)
-			FlxG.sound.playMusic(Util.getSound("music/titleMusic", true));
+			FlxG.sound.playMusic(Util.getSound("titleMusic", true));
 
 		makeButtons();
 

@@ -27,9 +27,8 @@
 
 	<!-- __________________________ Game Customization _________________________ -->
 
-	<define name="mods_allowed"/> <!-- Delete or comment this line if you don't want mods -->
-	<define name="lua_allowed"/> <!-- Delete or comment this line if you don't want lua -->
-	<define name="discord_rpc_allowed"/> <!-- Delete or comment this line if you don't want Discord RPC -->
+	<define name="lua_allowed" if="linc_luajit"/> <!-- Delete or comment this line if you don't want lua -->
+	<define name="discord_rpc_allowed" if="discord_rpc"/> <!-- Delete or comment this line if you don't want Discord RPC -->
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 
@@ -58,15 +57,13 @@
 	<assets path="assets/sounds" exclude="*.ogg" if="web"/>
 	<assets path="assets/sounds" exclude="*.mp3" unless="web"/>
 
-	<assets path="mods" if="mods_allowed"/>
-
 	<!-- _______________________________ Libraries ______________________________ -->
 
 	<haxelib name="flixel" />
 	<haxelib name="flixel-addons" />
 	<haxelib name="flixel-ui" />
-	<haxelib name="linc_luajit" if="lua_allowed"/>
-	<haxelib name="discord_rpc" if="discord_rpc_allowed"/>
+	<haxelib name="linc_luajit"/>
+	<haxelib name="discord_rpc"/>
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
