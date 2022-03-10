@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
@@ -33,7 +34,7 @@ class UISkinState extends BasicState
 	var json:Dynamic;
 	var noteskins:Array<String> = Options.getNoteskins();
 
-	var arrows:FlxTypedGroup<FlxSprite>;
+	var arrows:FlxSpriteGroup;
 	var strumNotes:FlxTypedGroup<StrumNote>;
 
 	override public function create()
@@ -42,14 +43,14 @@ class UISkinState extends BasicState
 
 		curSelected = Options.getData('ui-skin');
 
-		funnyGrid = new FlxSprite().loadGraphic(Util.getImage('mainmenu/blurGrid'));
+		funnyGrid = new game.BasicSprite().loadGraphic(Util.getImage('mainmenu/blurGrid'));
 		funnyGrid.screenCenter();
 		funnyGrid.scale.set(5, 5);
 		funnyGrid.antialiasing = Options.getData('antialiasing');
 		funnyGrid.color = 0xFF323852;
 		add(funnyGrid);
 
-		box = new FlxSprite(0, FlxG.height - 150).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		box = new game.BasicSprite(0, FlxG.height - 150).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		box.alpha = 0.6;
 		add(box);
 
@@ -58,7 +59,7 @@ class UISkinState extends BasicState
 		skinText.borderSize = 2;
 		add(skinText);
 
-		arrows = new FlxTypedGroup<FlxSprite>();
+		arrows = new FlxSpriteGroup();
 		add(arrows);
 
 		strumNotes = new FlxTypedGroup<StrumNote>();
@@ -66,7 +67,7 @@ class UISkinState extends BasicState
 
 		for (i in 0...2)
 		{
-			var arrow:FlxSprite = new FlxSprite(0, skinText.y + 5);
+			var arrow:game.BasicSprite = new game.BasicSprite(0, skinText.y + 5);
 			arrow.frames = Util.getSparrow('options/uiSkinArrow');
 
 			arrow.animation.addByPrefix("static", "gfuck0", 24, false);

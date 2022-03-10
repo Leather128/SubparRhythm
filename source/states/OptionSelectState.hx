@@ -32,6 +32,7 @@ class OptionSelectState extends BasicState
 		["Controls", "Change your UI/Gameplay controls. See what you like!"],
 		["Exit", "Exit the options menu."]
 	];
+
 	var menuItems:FlxTypedGroup<OptionSelectBox>;
 
 	override public function create()
@@ -40,7 +41,7 @@ class OptionSelectState extends BasicState
 
 		gridDir = 0;
 
-		funnyGrid = new FlxSprite().loadGraphic(Util.getImage('mainmenu/blurGrid'));
+		funnyGrid = new game.BasicSprite().loadGraphic(Util.getImage('mainmenu/blurGrid'));
 		funnyGrid.screenCenter();
 		funnyGrid.scale.set(5, 5);
 		funnyGrid.antialiasing = Options.getData('antialiasing');
@@ -197,13 +198,13 @@ class OptionSelectBox extends FlxSpriteGroup
 	{
 		super();
 
-		var box:FlxSprite = new FlxSprite(x, y).loadGraphic(Util.getImage('options/optionBox'));
+		var box:FlxSprite = new game.BasicSprite(x, y).loadGraphic(Util.getImage('options/optionBox'));
 		box.setGraphicSize(Std.int(box.width * 0.65));
 		box.screenCenter(X);
 		box.antialiasing = Options.getData('antialiasing');
 		add(box);
 
-		var icon:FlxSprite = new FlxSprite(x, y + 130).loadGraphic(Util.getImage('options/$title'));
+		var icon:FlxSprite = new game.BasicSprite(x, y + 130).loadGraphic(Util.getImage('options/$title'));
 		icon.setGraphicSize(Std.int(icon.width * 1.4));
 		icon.screenCenter(X);
 		icon.antialiasing = Options.getData('antialiasing');
@@ -220,10 +221,5 @@ class OptionSelectBox extends FlxSpriteGroup
 		desc.screenCenter(X);
 		desc.antialiasing = Options.getData('antialiasing');
 		add(desc);
-	}
-
-	override public function update(elapsed:Float)
-	{
-		super.update(elapsed);
 	}
 }

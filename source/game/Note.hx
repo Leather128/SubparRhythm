@@ -1,7 +1,6 @@
 package game;
 
 import flixel.FlxG;
-import flixel.FlxSprite;
 import lime.utils.Assets;
 import options.Options;
 import states.PlayState;
@@ -9,7 +8,7 @@ import util.Util;
 
 using StringTools;
 
-class Note extends FlxSprite
+class Note extends game.BasicSprite
 {
 	public var noteskin:String = 'default';
 	public var direction:Int = 0;

@@ -65,7 +65,7 @@ class ChartingState extends BasicState
 		gridBG.screenCenter();
 		add(gridBG);
 
-		dummyArrow = new FlxSprite().makeGraphic(gridSize, gridSize);
+		dummyArrow = new game.BasicSprite().makeGraphic(gridSize, gridSize);
 		add(dummyArrow);
 
 		renderedNotes = new FlxTypedGroup<Note>();

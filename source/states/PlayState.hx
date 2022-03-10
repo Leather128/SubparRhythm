@@ -3,6 +3,7 @@ package states;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.graphics.FlxGraphic;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.input.FlxInput.FlxInputState;
 import flixel.math.FlxMath;
@@ -79,9 +80,11 @@ class PlayState extends BasicState
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
 
+		add(new game.BasicSprite(0, 0).makeGraphic(1280, 720, FlxColor.GRAY));
+
 		laneOffset = Options.getData('lane-offset');
 
-		strumArea = new FlxSprite(0, 50);
+		strumArea = new game.BasicSprite(0, 50);
 		strumArea.visible = false;
 
 		if (Options.getData('downscroll'))
@@ -143,6 +146,7 @@ class PlayState extends BasicState
 
 		ratingDisplay = new RatingDisplay(0, ratingDisplayYPos);
 		ratingDisplay.screenCenter(X);
+		ratingDisplay.alpha = 0;
 		add(ratingDisplay);
 
 		generateNotes();
@@ -159,14 +163,17 @@ class PlayState extends BasicState
 		var noteskin:String = Options.getNoteskins()[Options.getData('ui-skin')];
 		var healthBarImage = Util.getImage('ui-skins/$noteskin/healthBar');
 
-		healthBarBG = new FlxSprite().loadGraphic(healthBarImage);
-		healthBarBG.setPosition(strumNotes.members[keyCount - 1].x, strumNotes.members[keyCount - 1].y - healthBarBG.height);
-		add(healthBarBG);
+		healthBarBG = new game.BasicSprite().loadGraphic(healthBarImage);
+		healthBarBG.setPosition(strumNotes.members[keyCount - 1].x + strumNotes.members[keyCount - 1].width,
+			strumNotes.members[keyCount - 1].y + strumNotes.members[keyCount - 1].height - healthBarBG.height);
 
 		healthBar = new FlxBar(healthBarBG.x, healthBarBG.y, BOTTOM_TO_TOP, Std.int(healthBarBG.width), Std.int(healthBarBG.height), this, 'health',
 			minHealth, maxHealth);
-		healthBar.createImageBar(healthBarImage, healthBarImage, FlxColor.fromString("#4aaced"), FlxColor.fromString("#884aed"));
+
+		healthBar.createFilledBar(FlxColor.RED, FlxColor.BLUE);
+
 		add(healthBar);
+		add(healthBarBG);
 	}
 
 	override public function update(elapsed:Float)
@@ -308,16 +315,16 @@ class PlayState extends BasicState
 
 					curRating = "marvelous";
 
-					if (Math.abs(noteMs) > 25)
+					if (Math.abs(noteMs) > 22.5)
 						curRating = 'perfect';
 
-					if (Math.abs(noteMs) > 50)
+					if (Math.abs(noteMs) > 45)
 						curRating = 'good';
 
-					if (Math.abs(noteMs) > 70)
+					if (Math.abs(noteMs) > 90)
 						curRating = 'bad';
 
-					if (Math.abs(noteMs) > 100)
+					if (Math.abs(noteMs) > 135)
 						curRating = 'trash';
 
 					noteDataTimes[note.direction] = note.strum;

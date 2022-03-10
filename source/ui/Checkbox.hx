@@ -1,11 +1,10 @@
 package ui;
 
-import flixel.FlxSprite;
 import flixel.animation.FlxAnimation;
 import options.Options;
 import util.Util;
 
-class Checkbox extends FlxSprite
+class Checkbox extends game.BasicSprite
 {
 	public var checked:Bool = false;
 	public var offsets = [[55, 23], [0, 0]];

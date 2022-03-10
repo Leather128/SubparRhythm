@@ -1,7 +1,6 @@
 package ui;
 
 import flixel.FlxG;
-import flixel.FlxSprite;
 import flixel.math.FlxMath;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -9,7 +8,7 @@ import options.Options;
 import states.PlayState;
 import util.Util;
 
-class RatingDisplay extends FlxSprite
+class RatingDisplay extends game.BasicSprite
 {
 	override public function new(x, y)
 	{

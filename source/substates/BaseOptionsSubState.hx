@@ -40,7 +40,7 @@ class BaseOptionsSubState extends BasicSubState
 
 		gridDir = OptionSelectState.gridDir;
 
-		funnyGrid = new FlxSprite().loadGraphic(Util.getImage('mainmenu/blurGrid'));
+		funnyGrid = new game.BasicSprite().loadGraphic(Util.getImage('mainmenu/blurGrid'));
 		funnyGrid.screenCenter();
 		funnyGrid.scale.set(5, 5);
 		funnyGrid.antialiasing = Options.getData('antialiasing');
@@ -219,7 +219,7 @@ class OptionBox extends FlxSpriteGroup
 
 		this.ID = id;
 
-		box = new FlxSprite(x, y).loadGraphic(Util.getImage('options/optionBox'));
+		box = new game.BasicSprite(x, y).loadGraphic(Util.getImage('options/optionBox'));
 		box.setGraphicSize(Std.int(box.width * 0.65));
 		box.screenCenter(X);
 		box.antialiasing = Options.getData('antialiasing');

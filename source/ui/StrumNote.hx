@@ -1,12 +1,11 @@
 package ui;
 
-import flixel.FlxSprite;
 import flixel.animation.FlxAnimation;
 import lime.utils.Assets;
 import options.Options;
 import util.Util;
 
-class StrumNote extends FlxSprite
+class StrumNote extends game.BasicSprite
 {
 	public var json:Dynamic;
 	public var noteskin:String = "default";

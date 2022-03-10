@@ -3,7 +3,10 @@ package states;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.graphics.FlxGraphic;
 import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.group.FlxGroup;
+import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
@@ -13,6 +16,7 @@ import flixel.util.FlxTimer;
 import lime.system.System;
 import options.Controls;
 import options.Options;
+import util.Cache;
 import util.Util;
 
 class TitleState extends BasicState
@@ -28,7 +32,7 @@ class TitleState extends BasicState
 
 	var menuShit:Array<String> = ["singleplayer", "multiplayer", "options", "exit"];
 
-	var menuItems:FlxTypedGroup<FlxSprite>;
+	var menuItems:FlxSpriteGroup;
 
 	var curSelected:Int = 0;
 
@@ -42,29 +46,36 @@ class TitleState extends BasicState
 
 	override public function create()
 	{
+		FlxGraphic.defaultPersist = true;
+
 		super.create();
+
+		Cache.clearCaches();
 
 		FlxG.fixedTimestep = false;
 
-		Options.init();
-		optionsInitialized = true;
+		if (!optionsInitialized)
+		{
+			Options.init();
+			optionsInitialized = true;
+		}
 
 		curText = FlxG.random.getObject(getIntroText());
 
 		if (Options.getData('volume') != null)
 			FlxG.sound.volume = Options.getData('volume');
 
-		funnyGrid = new FlxSprite().loadGraphic(Util.getImage('mainmenu/blurGrid'));
+		funnyGrid = new game.BasicSprite().loadGraphic(Util.getImage('mainmenu/blurGrid'));
 		funnyGrid.screenCenter();
 		funnyGrid.scale.set(5, 5);
 		funnyGrid.antialiasing = Options.getData('antialiasing');
 		funnyGrid.color = 0xFF323852;
 		add(funnyGrid);
 
-		if (titleStarted && (FlxG.sound.music != null && !FlxG.sound.music.playing))
+		if (titleStarted || (FlxG.sound.music != null && !FlxG.sound.music.playing))
 			FlxG.sound.playMusic(Util.getSound("titleMusic", true));
 
-		box = new FlxSprite(-450).loadGraphic(Util.getImage('mainmenu/menuCover'));
+		box = new game.BasicSprite(-450).loadGraphic(Util.getImage('mainmenu/menuCover'));
 		box.setGraphicSize(Std.int(box.width * 0.75));
 		box.updateHitbox();
 		box.screenCenter(Y);
@@ -72,13 +83,13 @@ class TitleState extends BasicState
 		box.antialiasing = Options.getData('antialiasing');
 		add(box);
 
-		logo = new FlxSprite(50, 50).loadGraphic(Util.getImage('logo'));
+		logo = new game.BasicSprite(50, 50).loadGraphic(Util.getImage('logo'));
 		logo.setGraphicSize(Std.int(logo.width * 0.55));
 		logo.updateHitbox();
 		logo.antialiasing = Options.getData('antialiasing');
 		add(logo);
 
-		menuItems = new FlxTypedGroup<FlxSprite>();
+		menuItems = new FlxSpriteGroup();
 		add(menuItems);
 
 		if (!titleStarted)
@@ -88,7 +99,7 @@ class TitleState extends BasicState
 			logo.alpha = 0;
 
 			// splash screen shit
-			logoCircles = new FlxSprite().loadGraphic(Util.getImage('logoCircles'));
+			logoCircles = new game.BasicSprite().loadGraphic(Util.getImage('logoCircles'));
 			logoCircles.screenCenter();
 			logoCircles.setGraphicSize(Std.int(logoCircles.width * 0.3));
 			logoCircles.antialiasing = Options.getData('antialiasing');
@@ -278,7 +289,7 @@ class TitleState extends BasicState
 			var fuck:Float = logo.y + 225;
 			var buttonTexture:String = menuShit[i];
 
-			var button:FlxSprite = new FlxSprite(-999 - (200 * i), fuck + (100 * i)).loadGraphic(Util.getImage('mainmenu/buttons/$buttonTexture'));
+			var button:FlxSprite = new game.BasicSprite(-999 - (200 * i), fuck + (100 * i)).loadGraphic(Util.getImage('mainmenu/buttons/$buttonTexture'));
 			button.setGraphicSize(Std.int(button.width * 0.6));
 			button.updateHitbox();
 			menuItems.add(button);
